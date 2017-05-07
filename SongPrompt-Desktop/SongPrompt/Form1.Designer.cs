@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.connectionGB = new System.Windows.Forms.GroupBox();
+            this.portComComboBox = new System.Windows.Forms.ComboBox();
+            this.comPortConnect = new System.Windows.Forms.Button();
+            this.comConnectionLbl = new System.Windows.Forms.Label();
+            this.comPortLabel = new System.Windows.Forms.Label();
             this.checkConnBtn = new System.Windows.Forms.Button();
             this.connectionStatusLbl = new System.Windows.Forms.Label();
             this.connLbl = new System.Windows.Forms.Label();
@@ -46,16 +50,60 @@
             // 
             // connectionGB
             // 
+            this.connectionGB.Controls.Add(this.portComComboBox);
+            this.connectionGB.Controls.Add(this.comPortConnect);
+            this.connectionGB.Controls.Add(this.comConnectionLbl);
+            this.connectionGB.Controls.Add(this.comPortLabel);
             this.connectionGB.Controls.Add(this.checkConnBtn);
             this.connectionGB.Controls.Add(this.connectionStatusLbl);
             this.connectionGB.Controls.Add(this.connLbl);
             this.connectionGB.Location = new System.Drawing.Point(15, 15);
             this.connectionGB.Margin = new System.Windows.Forms.Padding(5);
             this.connectionGB.Name = "connectionGB";
-            this.connectionGB.Size = new System.Drawing.Size(250, 75);
+            this.connectionGB.Size = new System.Drawing.Size(250, 131);
             this.connectionGB.TabIndex = 0;
             this.connectionGB.TabStop = false;
             this.connectionGB.Text = "Połączenie";
+            // 
+            // portComComboBox
+            // 
+            this.portComComboBox.FormattingEnabled = true;
+            this.portComComboBox.Location = new System.Drawing.Point(13, 96);
+            this.portComComboBox.Name = "portComComboBox";
+            this.portComComboBox.Size = new System.Drawing.Size(107, 21);
+            this.portComComboBox.TabIndex = 6;
+            // 
+            // comPortConnect
+            // 
+            this.comPortConnect.Location = new System.Drawing.Point(148, 95);
+            this.comPortConnect.Margin = new System.Windows.Forms.Padding(5);
+            this.comPortConnect.Name = "comPortConnect";
+            this.comPortConnect.Size = new System.Drawing.Size(90, 23);
+            this.comPortConnect.TabIndex = 5;
+            this.comPortConnect.Text = "Połącz";
+            this.comPortConnect.UseVisualStyleBackColor = true;
+            this.comPortConnect.Click += new System.EventHandler(this.comPortConnect_Click);
+            // 
+            // comConnectionLbl
+            // 
+            this.comConnectionLbl.AutoSize = true;
+            this.comConnectionLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.comConnectionLbl.Location = new System.Drawing.Point(198, 75);
+            this.comConnectionLbl.Margin = new System.Windows.Forms.Padding(5);
+            this.comConnectionLbl.Name = "comConnectionLbl";
+            this.comConnectionLbl.Size = new System.Drawing.Size(40, 13);
+            this.comConnectionLbl.TabIndex = 4;
+            this.comConnectionLbl.Text = "BRAK";
+            // 
+            // comPortLabel
+            // 
+            this.comPortLabel.AutoSize = true;
+            this.comPortLabel.Location = new System.Drawing.Point(8, 75);
+            this.comPortLabel.Margin = new System.Windows.Forms.Padding(5);
+            this.comPortLabel.Name = "comPortLabel";
+            this.comPortLabel.Size = new System.Drawing.Size(134, 13);
+            this.comPortLabel.TabIndex = 3;
+            this.comPortLabel.Text = "Połączenie z portem COM:";
             // 
             // checkConnBtn
             // 
@@ -85,17 +133,17 @@
             this.connLbl.Location = new System.Drawing.Point(10, 20);
             this.connLbl.Margin = new System.Windows.Forms.Padding(5);
             this.connLbl.Name = "connLbl";
-            this.connLbl.Size = new System.Drawing.Size(117, 13);
+            this.connLbl.Size = new System.Drawing.Size(110, 13);
             this.connLbl.TabIndex = 0;
-            this.connLbl.Text = "Połączenie do Spotify: ";
+            this.connLbl.Text = "Połączenie z Spotify: ";
             // 
             // trackInfoGB
             // 
             this.trackInfoGB.Controls.Add(this.tableLayoutPanel1);
-            this.trackInfoGB.Location = new System.Drawing.Point(15, 100);
+            this.trackInfoGB.Location = new System.Drawing.Point(15, 156);
             this.trackInfoGB.Margin = new System.Windows.Forms.Padding(5);
             this.trackInfoGB.Name = "trackInfoGB";
-            this.trackInfoGB.Size = new System.Drawing.Size(250, 122);
+            this.trackInfoGB.Size = new System.Drawing.Size(250, 123);
             this.trackInfoGB.TabIndex = 1;
             this.trackInfoGB.TabStop = false;
             this.trackInfoGB.Text = "Informacje o utworze";
@@ -175,7 +223,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(279, 235);
+            this.ClientSize = new System.Drawing.Size(279, 320);
             this.Controls.Add(this.trackInfoGB);
             this.Controls.Add(this.connectionGB);
             this.Name = "SongPrompt";
@@ -202,6 +250,10 @@
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label titleSetLbl;
         private System.Windows.Forms.Label authorSetLbl;
+        private System.Windows.Forms.Button comPortConnect;
+        private System.Windows.Forms.Label comConnectionLbl;
+        private System.Windows.Forms.Label comPortLabel;
+        private System.Windows.Forms.ComboBox portComComboBox;
     }
 }
 

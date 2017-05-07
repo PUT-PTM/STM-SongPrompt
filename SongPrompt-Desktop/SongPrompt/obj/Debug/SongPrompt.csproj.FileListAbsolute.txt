@@ -11,3 +11,16 @@ C:\Users\Rafał\documents\visual studio 2015\Projects\SongPrompt\SongPrompt\bin\
 C:\Users\Rafał\documents\visual studio 2015\Projects\SongPrompt\SongPrompt\bin\Debug\SpotifyAPI.dll
 C:\Users\Rafał\documents\visual studio 2015\Projects\SongPrompt\SongPrompt\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Rafał\documents\visual studio 2015\Projects\SongPrompt\SongPrompt\bin\Debug\SpotifyAPI.xml
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\bin\Debug\SongPrompt.exe.config
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\obj\Debug\SongPrompt.exe
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\obj\Debug\SongPrompt.pdb
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\bin\Debug\SongPrompt.exe
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\bin\Debug\SongPrompt.pdb
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\bin\Debug\SpotifyAPI.dll
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\bin\Debug\SpotifyAPI.xml
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\obj\Debug\SongPrompt.csprojResolveAssemblyReference.cache
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\obj\Debug\SongPrompt.SongPrompt.resources
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\obj\Debug\SongPrompt.Properties.Resources.resources
+C:\Users\Rafał\Documents\Visual Studio 2015\Projects\SongPrompt-Desktop\SongPrompt\obj\Debug\SongPrompt.csproj.GenerateResource.Cache

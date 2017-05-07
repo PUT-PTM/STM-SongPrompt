@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,13 +16,41 @@ using SpotifyAPI.Local.Models;
 
 namespace SongPrompt
 {
+    public struct TrackInfo
+    {
+        public string _author;
+        public string _title;
+        public string _time;
+    }
     public partial class SongPrompt : Form
     {
         private readonly SpotifyLocalAPI _spotify;
         private Track _currentTrack;
+        private TrackInfo _trackInfo;
+        private SerialPort mySerialPort;
+
+        /**
+         * Constructor
+         * Creates USer Interface, detects changes
+         */
         public SongPrompt()
         {
             InitializeComponent();
+            
+            _trackInfo = new TrackInfo();
+            mySerialPort = new SerialPort();
+
+            titleSetLbl.Text = "";
+            authorSetLbl.Text = "";
+            timeLabel.Text = "0:00 / 0:00";
+            try
+            {
+                fillComboBoxWithPorts();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             _spotify = new SpotifyLocalAPI();
 
             _spotify.OnPlayStateChange += _spotify_OnPlayStateChange;
@@ -32,29 +61,47 @@ namespace SongPrompt
             authorSetLbl.Click += (sender, args) => Process.Start(authorSetLbl.Tag.ToString());
         }
 
+        /**
+         * Filling ComboBox with all Ports available in system.
+         * 
+         */
+        void fillComboBoxWithPorts()
+        {
+            string[] ports = SerialPort.GetPortNames();
+            foreach (string port in ports)
+            {
+                portComComboBox.Items.Add(port);
+            }
+        }
+
+        /**
+         * Connection to Spotify
+         * Try to connect to Local Spotify App
+         */
         public void Connect()
         {
-            if (!SpotifyLocalAPI.IsSpotifyRunning())
+            // Check whether the app is running
+
+           if (_spotify.Connect())
             {
-                MessageBox.Show(@"Spotify nie jest uruchomione");
-                return;
-            }
-            bool successful = _spotify.Connect();
-            if (successful)
-            {
+                // If the connection to Spotify is OK, set Label.
                 connectionStatusLbl.Text = @"OK";
                 UpdateInfos();
                 _spotify.ListenForEvents = true;
             }
             else
             {
-                DialogResult res = MessageBox.Show(@"Nie można było połączyć się do Spotify, ponowić próbę?", @"Spotify",
-                    MessageBoxButtons.YesNo);
+                DialogResult res = MessageBox.Show(@"Nie można było połączyć się do Spotify, ponowić próbę?", @"Połączenei z Spotify",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (res == DialogResult.Yes)
                     Connect();
             }
+            
         }
 
+        /**
+         * Gets status from Spotify and updates it
+         */
         public void UpdateInfos()
         {
             StatusResponse status = _spotify.GetStatus();
@@ -64,6 +111,9 @@ namespace SongPrompt
                 UpdateTrack(status.Track);
         }
 
+        /**
+         * Update Track info
+         */
         public async void UpdateTrack(Track track)
         {
             _currentTrack = track;
@@ -73,16 +123,24 @@ namespace SongPrompt
 
             titleSetLbl.Text = track.TrackResource.Name;
             titleSetLbl.Tag = track.TrackResource.Uri;
+            _trackInfo._title = track.TrackResource.Name;
 
             authorSetLbl.Text = track.ArtistResource.Name;
             authorSetLbl.Tag = track.ArtistResource.Uri;
+            _trackInfo._author = track.ArtistResource.Name;
+            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+
+            if (mySerialPort.IsOpen)
+            {
+                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+                
+            }
         }
 
-        private void checkConnBtn_Click(object sender, EventArgs e)
-        {
-            Connect();
-        }
-
+        
+        /**
+         * Method that converts time to format: mm:ss
+         */
         private static String FormatTime(double sec)
         {
             TimeSpan span = TimeSpan.FromSeconds(sec);
@@ -99,7 +157,10 @@ namespace SongPrompt
                 Invoke(new Action(() => _spotify_OnTrackTimeChange(sender, e)));
                 return;
             }
-            timeLabel.Text = $@"{FormatTime(e.TrackTime)}/{FormatTime(_currentTrack.Length)}";
+            timeLabel.Text = $@"{FormatTime(e.TrackTime)} / {FormatTime(_currentTrack.Length)}";
+            _trackInfo._time = timeLabel.Text;
+            mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
         }
 
         private void _spotify_OnTrackChange(object sender, TrackChangeEventArgs e)
@@ -118,6 +179,50 @@ namespace SongPrompt
             {
                 Invoke(new Action(() => _spotify_OnPlayStateChange(sender, e)));
                 return;
+            }
+        }
+
+        /**
+         * Event for check connetion with Spotify button.
+         * 
+         */
+        private void checkConnBtn_Click(object sender, EventArgs e)
+        {
+            Connect();
+        }
+
+        /**
+         * Event for COM port connection button.
+         * Tries to connect to given COM port.
+         */
+        private void comPortConnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string chosenPort = portComComboBox.SelectedItem.ToString();
+                mySerialPort.PortName = chosenPort;
+                mySerialPort.BaudRate = 38400;
+                mySerialPort.Parity = Parity.None;
+                mySerialPort.StopBits = StopBits.One;
+                mySerialPort.DataBits = 8;
+                mySerialPort.Handshake = Handshake.None;
+                mySerialPort.RtsEnable = true;
+
+                mySerialPort.Open();
+
+                if (mySerialPort.IsOpen)
+                {
+                    comConnectionLbl.Text = "OK";
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("Proszę wybrać port COM i spróbować ponownie.", "Nie wybrano portu COM",
+                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

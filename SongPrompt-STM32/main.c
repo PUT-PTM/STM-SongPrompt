@@ -7,8 +7,14 @@
 #include "stm32f4xx_exti.h"
 #include "stm32f4xx_syscfg.h"
 
+void send_string(const char* s);
+
+int buffer[5];
+int i=0;
+
 int main(void)
 {
+	//TIMER
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 	TIM_TimeBaseStructure.TIM_Period =1000-1;
@@ -28,9 +34,8 @@ int main(void)
 	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
 	TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);
 
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	//USART
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -41,26 +46,11 @@ int main(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1| GPIO_Pin_2;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-		GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-		GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
-			GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-			GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-			GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-			GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-			GPIO_Init(GPIOD, &GPIO_InitStructure);
-
-
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_USART3);
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_USART3);
 
 	USART_InitTypeDef USART_InitStructure;
-	USART_InitStructure.USART_BaudRate = 115200;
+	USART_InitStructure.USART_BaudRate = 9600;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -78,25 +68,49 @@ int main(void)
 	NVIC_EnableIRQ(USART3_IRQn);
 
 
+	//PRZYCISK
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
 
+	EXTI_InitTypeDef EXTI_InitStructure;
+	EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+	EXTI_Init(&EXTI_InitStructure);
+
+	SYSCFG_EXTILineConfig(GPIOD, EXTI_PinSource1);
 
     while(1)
     {
 
+    if (USART_GetFlagStatus(USART3, USART_FLAG_RXNE)) {
+    	char c = USART_ReceiveData(USART3);
+    	if(i>=5)
+    		i=0;
 
-		GPIO_SetBits(GPIOA, GPIO_Pin_2);
+    		if(c!='g') { 	 //g testowo jako koniec przesylania.
+    			buffer[i] = c;
+    			i++;
+    	            }
 
-		if((GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_2)==0))
-		{
-			GPIO_SetBits(GPIOD, GPIO_Pin_13);
-		}
-		else
-		{ GPIO_ResetBits(GPIOD, GPIO_Pin_13);
-		}
+
+    	     if(c == 'g')
+    	     	 {
+    	    	  send_string("\n");
+    	          send_string(buffer);
+    	          i=0;
+    	          }
+    													}
+    	       }
 
 
     }
-}
+
+//Timer dla przycisku
 void TIM3_IRQHandler(void)
 
 {
@@ -105,19 +119,60 @@ void TIM3_IRQHandler(void)
         	//czekaj na opró¿nienie bufora wyjœciowego
         	while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
         	// wyslanie danych
-        	USART_SendData(USART3, 'a');
+        	send_string("TEST\n");
         	// czekaj az dane zostana wyslane
         	while (USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
             TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
+            TIM_Cmd(TIM3, DISABLE);
         }
 
 }
 
+//USART
 void USART3_IRQHandler(void)
 {
 	// sprawdzenie flagi zwiazanej z odebraniem danych przez USART
 	if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
        {
 		// odebrany bajt znajduje sie w rejestrze USART3->DR
+	}
+}
+
+//Wysylanie znaku
+void send_char(char c)
+{
+    while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
+    USART_SendData(USART3, c);
+}
+
+//Wysylanie stringa
+void send_string(const char* s)
+{
+    while (*s)
+        send_char(*s++);
+}
+
+//Wysylanie stringa2
+void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount)
+{
+    //
+    // Loop while there are more characters to send.
+    //
+    while(ulCount--)
+    {
+        USART_SendData(USART3, (uint16_t) *pucBuffer++);
+        /* Loop until the end of transmission */
+        while(USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET)
+        {
+        }
+    }
+}
+
+//PRZERWANIE PRZYCISKU
+void EXTI0_IRQHandler(void) {
+	if (EXTI_GetITStatus(EXTI_Line0) != RESET) {
+
+		TIM_Cmd(TIM3, ENABLE);
+		EXTI_ClearITPendingBit(EXTI_Line0);
 	}
 }

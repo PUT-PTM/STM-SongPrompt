@@ -9,10 +9,12 @@
 #include "stm32f4xx_exti.h"
 #include "stm32f4xx_syscfg.h"
 #include <string.h>
+#include <stdio.h>
 
 void send_string(const char* s);
 
 char buffer[255];
+char* split;
 int i=0;
 int k=0;
 
@@ -125,9 +127,21 @@ int main(void)
 			{
 				send_string(buffer);
 				send_string("\n");
+				split = strtok(buffer, ";");
 				TM_HD44780_Clear();
+				int j = 0;
+				while(split != NULL)
+				{
+					if(j == 2)
+						break;
+					TM_HD44780_Puts(0, j, split);
+					j++;
+					split = strtok(NULL, ";");
+
+				}
 				TM_HD44780_Puts(0,0,buffer);
 				memset(buffer, 0, sizeof(buffer));
+				memset(split, 0, sizeof(split));
 				i=0;
 			}
     	}

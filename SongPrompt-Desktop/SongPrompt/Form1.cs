@@ -55,7 +55,7 @@ namespace SongPrompt
 
             _spotify.OnPlayStateChange += _spotify_OnPlayStateChange;
             _spotify.OnTrackChange += _spotify_OnTrackChange;
-            _spotify.OnTrackTimeChange += _spotify_OnTrackTimeChange;
+            //_spotify.OnTrackTimeChange += _spotify_OnTrackTimeChange;
 
             titleSetLbl.Click += (sender, args) => Process.Start(titleSetLbl.Tag.ToString());
             authorSetLbl.Click += (sender, args) => Process.Start(authorSetLbl.Tag.ToString());
@@ -88,6 +88,14 @@ namespace SongPrompt
                 connectionStatusLbl.Text = @"OK";
                 UpdateInfos();
                 _spotify.ListenForEvents = true;
+                if (mySerialPort.IsOpen)
+                {
+                    mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "0");
+                }
+                else
+                {
+                    MessageBox.Show(@"Brak połączenia z portem COM", "Brak połączenia z portem COM", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {
@@ -128,11 +136,12 @@ namespace SongPrompt
             authorSetLbl.Text = track.ArtistResource.Name;
             authorSetLbl.Tag = track.ArtistResource.Uri;
             _trackInfo._author = track.ArtistResource.Name;
-            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+            //Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";0");
 
             if (mySerialPort.IsOpen)
             {
-                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "0");
                 
             }
         }
@@ -159,7 +168,11 @@ namespace SongPrompt
             }
             timeLabel.Text = $@"{FormatTime(e.TrackTime)} / {FormatTime(_currentTrack.Length)}";
             _trackInfo._time = timeLabel.Text;
-            mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+            if (mySerialPort.IsOpen)
+            {
+                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "0");
+            }
+            //mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
             Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
         }
 
@@ -201,7 +214,7 @@ namespace SongPrompt
             {
                 string chosenPort = portComComboBox.SelectedItem.ToString();
                 mySerialPort.PortName = chosenPort;
-                mySerialPort.BaudRate = 38400;
+                mySerialPort.BaudRate = 9600;
                 mySerialPort.Parity = Parity.None;
                 mySerialPort.StopBits = StopBits.One;
                 mySerialPort.DataBits = 8;

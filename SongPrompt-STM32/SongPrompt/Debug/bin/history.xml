@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <history>
-   <processor signature="arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -g -nostartfiles -Map=SongPrompt.map -O0 --gc-sections -LD:\CooCox\CoIDE\configuration\ProgramData\SongPrompt -TD:\CooCox\CoIDE\configuration\ProgramData\SongPrompt/arm-gcc-link.ld -g">
-      <target file="SongPrompt.elf" lastModified="15b388b6b71">
-         <source file="..\obj\stm32f4xx_syscfg.o" lastModified="15b38781b98"/>
-         <source file="..\obj\tm_stm32f4_hd44780.o" lastModified="15b38781de1"/>
-         <source file="..\obj\stm32f4xx_usart.o" lastModified="15b38781ef4"/>
-         <source file="..\obj\startup_stm32f4xx.o" lastModified="15b38781f76"/>
-         <source file="..\obj\main.o" lastModified="15b388b6889"/>
-         <source file="..\obj\stm32f4xx_rcc.o" lastModified="15b38782146"/>
-         <source file="..\obj\tm_stm32f4_delay.o" lastModified="15b38782292"/>
-         <source file="..\obj\stm32f4xx_gpio.o" lastModified="15b38782373"/>
-         <source file="..\obj\system_stm32f4xx.o" lastModified="15b38782427"/>
-         <source file="..\obj\stm32f4xx_exti.o" lastModified="15b387824e5"/>
-         <source file="..\obj\misc.o" lastModified="15b387825a3"/>
-         <source file="..\obj\tm_stm32f4_gpio.o" lastModified="15b38782689"/>
-         <source file="..\obj\tm_stm32f4_timer_properties.o" lastModified="15b3878275b"/>
-         <source file="..\obj\stm32f4xx_tim.o" lastModified="15b38782949"/>
+   <processor signature="5.4.1 -mcpu=cortex-m4 -mthumb -g -nostartfiles -Map=SongPrompt.map -O0 --gc-sections -LC:\CooCox\CoIDE\configuration\ProgramData\SongPrompt -TC:\CooCox\CoIDE\configuration\ProgramData\SongPrompt/arm-gcc-link.ld -g">
+      <target file="SongPrompt.elf" lastModified="15c0cbaf98f">
+         <source file="..\obj\stm32f4xx_syscfg.o" lastModified="15c0b9a06ca"/>
+         <source file="..\obj\tm_stm32f4_hd44780.o" lastModified="15c0b9a0750"/>
+         <source file="..\obj\stm32f4xx_usart.o" lastModified="15c0b9a07cf"/>
+         <source file="..\obj\startup_stm32f4xx.o" lastModified="15c0b9a0812"/>
+         <source file="..\obj\main.o" lastModified="15c0cbaf785"/>
+         <source file="..\obj\stm32f4xx_rcc.o" lastModified="15c0b9a0962"/>
+         <source file="..\obj\tm_stm32f4_delay.o" lastModified="15c0b9a09f9"/>
+         <source file="..\obj\stm32f4xx_gpio.o" lastModified="15c0b9a0a60"/>
+         <source file="..\obj\system_stm32f4xx.o" lastModified="15c0b9a0abc"/>
+         <source file="..\obj\stm32f4xx_exti.o" lastModified="15c0b9a0b19"/>
+         <source file="..\obj\misc.o" lastModified="15c0b9a0b77"/>
+         <source file="..\obj\tm_stm32f4_gpio.o" lastModified="15c0b9a0be8"/>
+         <source file="..\obj\tm_stm32f4_timer_properties.o" lastModified="15c0b9a0c4e"/>
+         <source file="..\obj\stm32f4xx_tim.o" lastModified="15c0b9a0d19"/>
       </target>
    </processor>
 </history>

@@ -2,15 +2,19 @@
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
+#include "tm_stm32f4_hd44780.h"
+#include "defines.h"
 #include "misc.h"
 #include "stm32f4xx_tim.h"
 #include "stm32f4xx_exti.h"
 #include "stm32f4xx_syscfg.h"
+#include <string.h>
 
 void send_string(const char* s);
 
-int buffer[5];
+char buffer[255];
 int i=0;
+int k=0;
 
 int main(void)
 {
@@ -67,6 +71,20 @@ int main(void)
 	NVIC_Init(&NVIC_InitStructure);
 	NVIC_EnableIRQ(USART3_IRQn);
 
+	//LCD
+	TM_HD44780_Clear();
+
+	//Initialize LCD 16 cols x 2 rows
+	TM_HD44780_Init(16, 2);
+	char init[] = "Initializing...";
+
+	//Put string to LCD
+	TM_HD44780_Puts(0, 0, init);
+
+	Delayms(500);
+
+	TM_HD44780_Clear();
+
 
 	//PRZYCISK
 	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
@@ -84,75 +102,79 @@ int main(void)
 
 	SYSCFG_EXTILineConfig(GPIOD, EXTI_PinSource1);
 
+	TM_HD44780_Puts(0,0, "Ready.");
+	Delayms(100);
+	TM_HD44780_Clear();
+
     while(1)
     {
 
-    if (USART_GetFlagStatus(USART3, USART_FLAG_RXNE)) {
-    	char c = USART_ReceiveData(USART3);
-    	if(i>=5)
-    		i=0;
+    	if (USART_GetFlagStatus(USART3, USART_FLAG_RXNE))
+    	{
+    		char c = USART_ReceiveData(USART3);
+			if(i>=255)
+			  i=0;
 
-    		if(c!='g') { 	 //g testowo jako koniec przesylania.
-    			buffer[i] = c;
-    			i++;
-    	            }
-
-
-    	     if(c == 'g')
-    	     	 {
-    	    	  send_string("\n");
-    	          send_string(buffer);
-    	          i=0;
-    	          }
-    													}
-    	       }
-
-
+			if(c!='0')
+			{
+				buffer[i] = c;
+				i++;
+				k++;
+			}
+			if(c == '0')
+			{
+				send_string(buffer);
+				send_string("\n");
+				TM_HD44780_Clear();
+				TM_HD44780_Puts(0,0,buffer);
+				memset(buffer, 0, sizeof(buffer));
+				i=0;
+			}
+    	}
     }
 
-//Timer dla przycisku
-void TIM3_IRQHandler(void)
-
-{
-        if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET)
-        {
-        	//czekaj na opró¿nienie bufora wyjœciowego
-        	while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
-        	// wyslanie danych
-        	send_string("TEST\n");
-        	// czekaj az dane zostana wyslane
-        	while (USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
-            TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
-            TIM_Cmd(TIM3, DISABLE);
-        }
 
 }
 
-//USART
+
+void TIM3_IRQHandler(void)
+
+{
+	if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET)
+	{
+		//czekaj na opró¿nienie bufora wyjœciowego
+		while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
+		// wyslanie danych
+		send_string("XD");
+		// czekaj az dane zostana wyslane
+		while (USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
+		TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
+		TIM_Cmd(TIM3, DISABLE);
+	}
+}
+
 void USART3_IRQHandler(void)
 {
 	// sprawdzenie flagi zwiazanej z odebraniem danych przez USART
 	if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
-       {
+    {
 		// odebrany bajt znajduje sie w rejestrze USART3->DR
 	}
 }
 
-//Wysylanie znaku
 void send_char(char c)
 {
     while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
     USART_SendData(USART3, c);
 }
 
-//Wysylanie stringa
+
 void send_string(const char* s)
 {
     while (*s)
         send_char(*s++);
 }
 
-//Wysylanie stringa2
 void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount)
 {
     //
@@ -168,10 +190,11 @@ void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount)
     }
 }
 
-//PRZERWANIE PRZYCISKU
-void EXTI0_IRQHandler(void) {
-	if (EXTI_GetITStatus(EXTI_Line0) != RESET) {
 
+void EXTI0_IRQHandler(void)
+{
+	if (EXTI_GetITStatus(EXTI_Line0) != RESET)
+	{
 		TIM_Cmd(TIM3, ENABLE);
 		EXTI_ClearITPendingBit(EXTI_Line0);
 	}

@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dependencies>
-   <includePath signature="/IC:\Users\aQua\Desktop\SongPrompt /IC:\Users\aQua\Desktop\SongPrompt\SongPrompt\cmsis_boot /IC:\Users\aQua\Desktop\SongPrompt\SongPrompt\cmsis_lib\include /IC:\Users\aQua\Desktop\SongPrompt\SongPrompt\cmsis_lib /IC:\Users\aQua\Desktop\SongPrompt\SongPrompt\cmsis /IC:\Users\aQua\Desktop\SongPrompt\SongPrompt">
+   <includePath signature="/I..\..\..\workspace\SongPrompt\cmsis /I..\..\..\workspace /I..\..\..\workspace\SongPrompt /I..\..\..\workspace\SongPrompt\cmsis_boot /I..\..\..\workspace\SongPrompt\cmsis_lib\include /I..\..\..\workspace\SongPrompt\cmsis_lib">
       <source file="..\..\..\cmsis_lib\source\tm_stm32f4_hd44780.c" lastModified="14e8d1bd3c0">
          <include file="..\..\..\cmsis_lib\include\tm_stm32f4_hd44780.h"/>
       </source>
-      <source file="..\..\..\cmsis_lib\include\stm32f4xx_syscfg.h" lastModified="15b3876c3bc">
+      <source file="..\..\..\cmsis_lib\include\stm32f4xx_syscfg.h" lastModified="15bcef6c75f">
          <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
       </source>
       <source file="..\..\..\cmsis\core_cmInstr.h" lastModified="15acdd0a168">
@@ -14,7 +14,7 @@
          <include file="..\..\..\cmsis\core_cmFunc.h"/>
          <include file="..\..\..\cmsis\core_cm4_simd.h"/>
       </source>
-      <source file="..\..\..\cmsis_lib\source\stm32f4xx_syscfg.c" lastModified="15b3876c3bc">
+      <source file="..\..\..\cmsis_lib\source\stm32f4xx_syscfg.c" lastModified="15bcef6c75f">
          <include file="..\..\..\cmsis_lib\include\stm32f4xx_syscfg.h"/>
          <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
       </source>
@@ -32,10 +32,10 @@
          <include file="..\..\..\cmsis_lib\include\tm_stm32f4_delay.h"/>
          <include file="..\..\..\cmsis_lib\include\tm_stm32f4_gpio.h"/>
       </source>
-      <source file="..\..\..\cmsis_lib\include\stm32f4xx_exti.h" lastModified="15b38760850">
+      <source file="..\..\..\cmsis_boot\system_stm32f4xx.c" lastModified="15c0b99ed29">
          <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
       </source>
-      <source file="..\..\..\cmsis_boot\system_stm32f4xx.c" lastModified="15acdd0998f">
+      <source file="..\..\..\cmsis_lib\include\stm32f4xx_exti.h" lastModified="15bcef13a08">
          <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
       </source>
       <source file="..\..\..\cmsis_lib\source\stm32f4xx_tim.c" lastModified="15acdd557a8">
@@ -57,7 +57,7 @@
          <include file="..\..\..\cmsis_lib\include\stm32f4xx_usart.h"/>
          <include file="..\..\..\cmsis_lib\include\misc.h"/>
       </source>
-      <source file="..\..\..\cmsis_boot\stm32f4xx.h" lastModified="15acdd09d74">
+      <source file="..\..\..\cmsis_boot\stm32f4xx.h" lastModified="15c0b996496">
          <include file="..\..\..\cmsis\core_cm4.h"/>
          <include file="..\..\..\cmsis_boot\system_stm32f4xx.h"/>
          <include file="..\..\..\cmsis_boot\stm32f4xx_conf.h"/>
@@ -100,96 +100,19 @@
          <include file="..\..\..\cmsis_lib\include\stm32f4xx_gpio.h"/>
          <include file="..\..\..\cmsis_lib\include\defines.h"/>
       </source>
+      <source file="..\..\..\cmsis_boot\startup\startup_stm32f4xx.c" lastModified="15acdd09989">
+      </source>
       <source file="..\..\..\cmsis_lib\source\tm_stm32f4_delay.c" lastModified="14fdb45db92">
          <include file="..\..\..\cmsis_lib\include\tm_stm32f4_delay.h"/>
       </source>
-      <source file="..\..\..\cmsis_boot\startup\startup_stm32f4xx.c" lastModified="15acdd09989">
+      <source file="..\..\..\cmsis_lib\source\stm32f4xx_gpio.c" lastModified="15acdd0aa50">
+         <include file="..\..\..\cmsis_lib\include\stm32f4xx_gpio.h"/>
+         <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
       </source>
-      <source file="..\..\..\cmsis_lib\source\stm32f4xx_exti.c" lastModified="15b3876085a">
+      <source file="..\..\..\cmsis_lib\source\stm32f4xx_exti.c" lastModified="15bcef13a09">
          <include file="..\..\..\cmsis_lib\include\stm32f4xx_exti.h"/>
       </source>
-      <source file="..\..\..\cmsis_lib\source\stm32f4xx_gpio.c" lastModified="15acdd0aa50">
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_gpio.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
-      </source>
       <source file="..\..\..\cmsis\core_cm4_simd.h" lastModified="15acdd0a166">
-      </source>
-      <source file="..\..\..\cmsis_lib\source\tm_stm32f4_timer_properties.c" lastModified="1488e7b89f5">
-         <include file="..\..\..\cmsis_lib\include\tm_stm32f4_timer_properties.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h" lastModified="15acdd0997d">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\source\tm_stm32f4_gpio.c" lastModified="14de28d1f68">
-         <include file="..\..\..\cmsis_lib\include\tm_stm32f4_gpio.h"/>
-      </source>
-   </includePath>
-   <includePath signature="/I..\..\..\workspace\SongPrompt\cmsis /I..\..\..\workspace /I..\..\..\workspace\SongPrompt /I..\..\..\workspace\SongPrompt\cmsis_boot /I..\..\..\workspace\SongPrompt\cmsis_lib\include /I..\..\..\workspace\SongPrompt\cmsis_lib">
-      <source file="..\..\..\cmsis_lib\source\tm_stm32f4_hd44780.c" lastModified="14e8d1bd3c0">
-         <include file="..\..\..\cmsis_lib\include\tm_stm32f4_hd44780.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\include\defines.h" lastModified="14928137e1d">
-      </source>
-      <source file="..\..\..\cmsis_lib\include\attributes.h" lastModified="149ebc5b110">
-      </source>
-      <source file="..\..\..\cmsis_boot\system_stm32f4xx.h" lastModified="15acdd09990">
-      </source>
-      <source file="..\..\..\cmsis_lib\include\tm_stm32f4_hd44780.h" lastModified="14e8d190500">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_gpio.h"/>
-         <include file="..\..\..\cmsis_lib\include\defines.h"/>
-         <include file="..\..\..\cmsis_lib\include\tm_stm32f4_delay.h"/>
-         <include file="..\..\..\cmsis_lib\include\tm_stm32f4_gpio.h"/>
-      </source>
-      <source file="..\..\..\cmsis_boot\system_stm32f4xx.c" lastModified="15acdd0998f">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\source\stm32f4xx_tim.c" lastModified="15acdd557a8">
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_tim.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\include\stm32f4xx_gpio.h" lastModified="15acdd0aa4e">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\include\misc.h" lastModified="15aed43e02c">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\include\tm_stm32f4_timer_properties.h" lastModified="149f34a3681">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_tim.h"/>
-         <include file="..\..\..\cmsis_lib\include\defines.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\include\stm32f4xx_tim.h" lastModified="15acdd557a6">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\include\stm32f4xx_usart.h" lastModified="15aed43a9da">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\source\misc.c" lastModified="15aed43e02e">
-         <include file="..\..\..\cmsis_lib\include\misc.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\source\stm32f4xx_usart.c" lastModified="15aed43a9dc">
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_usart.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\source\stm32f4xx_rcc.c" lastModified="15acdd0997f">
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\include\tm_stm32f4_gpio.h" lastModified="1525418439d">
-         <include file="..\..\..\cmsis_boot\stm32f4xx.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_gpio.h"/>
-         <include file="..\..\..\cmsis_lib\include\defines.h"/>
-      </source>
-      <source file="..\..\..\cmsis_lib\source\tm_stm32f4_delay.c" lastModified="14fdb45db92">
-         <include file="..\..\..\cmsis_lib\include\tm_stm32f4_delay.h"/>
-      </source>
-      <source file="..\..\..\cmsis_boot\startup\startup_stm32f4xx.c" lastModified="15acdd09989">
-      </source>
-      <source file="..\..\..\cmsis_lib\source\stm32f4xx_gpio.c" lastModified="15acdd0aa50">
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_gpio.h"/>
-         <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
       </source>
       <source file="..\..\..\cmsis_lib\source\tm_stm32f4_timer_properties.c" lastModified="1488e7b89f5">
          <include file="..\..\..\cmsis_lib\include\tm_stm32f4_timer_properties.h"/>

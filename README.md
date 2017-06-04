@@ -18,7 +18,7 @@ How are board and LED display and bluetooth module connected:
 `(TO DO)`
 
 ## Tools
-he STM32 software was written in C language using CoIDE:
+The STM32 software was written in C language using CoIDE:
 (link)
 Library used for LED Display:
 (link)
@@ -52,5 +52,6 @@ Distrubted under MIT license.
 
 ## Credits
 Rafał Jendraszak, Jonasz Świtała
+
 The project was conducted during the Microprocessor Lab course held by the Institute of Control and Information Engineering, Poznan University of Technology.
 Supervisor: Marek Kraft/Michał Fularz/Tomasz Mańkowski/Adam Bondyra

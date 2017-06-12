@@ -17,28 +17,17 @@ Data is send in prepared format:
 How are board and LED display and bluetooth module connected:
 LED Display HD44780 : 
 
-`1 - GND
-
-2 - 5 V
-
-3 - GND
-
-4 - PB2
-
-5 - GND
-
-6 - PB7
-
-11 - PC12
-
-12 - PC13
-
-13 - PB12
-
-14 - PB13
-
-15 - 3 V
-
+`1 - GND <br />
+2 - 5 V <br />
+3 - GND <br />
+4 - PB2 <br />
+5 - GND <br />
+6 - PB7 <br />
+11 - PC12 <br />
+12 - PC13 <br />
+13 - PB12 <br />
+14 - PB13 <br />
+15 - 3 V <br />
 16 - GND`
 
 

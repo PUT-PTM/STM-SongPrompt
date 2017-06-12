@@ -58,7 +58,8 @@ namespace SongPrompt
 
             _spotify.OnPlayStateChange += _spotify_OnPlayStateChange;
             _spotify.OnTrackChange += _spotify_OnTrackChange;
-            _spotify.OnTrackTimeChange += _spotify_OnTrackTimeChange;
+            
+            //_spotify.OnTrackTimeChange += _spotify_OnTrackTimeChange;
 
             titleSetLbl.Click += (sender, args) => Process.Start(titleSetLbl.Tag.ToString());
             authorSetLbl.Click += (sender, args) => Process.Start(authorSetLbl.Tag.ToString());
@@ -96,7 +97,7 @@ namespace SongPrompt
                 _spotify.ListenForEvents = true;
                 if (mySerialPort.IsOpen)
                 {
-                    mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
+                    mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "^");
                 }
                 else
                 {
@@ -142,15 +143,10 @@ namespace SongPrompt
             authorSetLbl.Text = track.ArtistResource.Name;
             authorSetLbl.Tag = track.ArtistResource.Uri;
             _trackInfo._author = track.ArtistResource.Name;
-            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
-            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";0");
-
+            
             if (mySerialPort.IsOpen)
             {
-                
-                mySerialPort.Write("Spotify ON 0");
-                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
-                
+                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + "^");
             }
         }
 
@@ -176,11 +172,13 @@ namespace SongPrompt
             }
             timeLabel.Text = $@"{FormatTime(e.TrackTime)} / {FormatTime(_currentTrack.Length)}";
             _trackInfo._time = timeLabel.Text;
+            
             if (mySerialPort.IsOpen)
             {
-                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
+                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "^");
+                
             }
-            mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
+            
             
         }
 
@@ -200,6 +198,15 @@ namespace SongPrompt
             {
                 Invoke(new Action(() => _spotify_OnPlayStateChange(sender, e)));
                 return;
+            }
+            
+            if (e.Playing)
+            {
+                mySerialPort.Write("&");
+            }
+            else
+            {
+                mySerialPort.Write("$");
             }
         }
 

@@ -28,6 +28,7 @@ namespace SongPrompt
         private Track _currentTrack;
         private TrackInfo _trackInfo;
         private SerialPort mySerialPort;
+        public string chosenPort;
 
         /**
          * Constructor
@@ -36,6 +37,8 @@ namespace SongPrompt
         public SongPrompt()
         {
             InitializeComponent();
+
+            Hide();
             
             _trackInfo = new TrackInfo();
             mySerialPort = new SerialPort();
@@ -55,10 +58,13 @@ namespace SongPrompt
 
             _spotify.OnPlayStateChange += _spotify_OnPlayStateChange;
             _spotify.OnTrackChange += _spotify_OnTrackChange;
-            //_spotify.OnTrackTimeChange += _spotify_OnTrackTimeChange;
+            _spotify.OnTrackTimeChange += _spotify_OnTrackTimeChange;
 
             titleSetLbl.Click += (sender, args) => Process.Start(titleSetLbl.Tag.ToString());
             authorSetLbl.Click += (sender, args) => Process.Start(authorSetLbl.Tag.ToString());
+            
+            notifyIcon1.Visible = true;
+            
         }
 
         /**
@@ -136,12 +142,14 @@ namespace SongPrompt
             authorSetLbl.Text = track.ArtistResource.Name;
             authorSetLbl.Tag = track.ArtistResource.Uri;
             _trackInfo._author = track.ArtistResource.Name;
-            //Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + ";0");
             Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";0");
 
             if (mySerialPort.IsOpen)
             {
-                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "0");
+                
+                mySerialPort.Write("Spotify ON 0");
+                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "0");
                 
             }
         }
@@ -172,7 +180,7 @@ namespace SongPrompt
             {
                 mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "0");
             }
-            //mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+            mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "0");
             Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
         }
 
@@ -212,7 +220,7 @@ namespace SongPrompt
         {
             try
             {
-                string chosenPort = portComComboBox.SelectedItem.ToString();
+                chosenPort = portComComboBox.SelectedItem.ToString();
                 mySerialPort.PortName = chosenPort;
                 mySerialPort.BaudRate = 9600;
                 mySerialPort.Parity = Parity.None;
@@ -237,6 +245,28 @@ namespace SongPrompt
             {
                 MessageBox.Show(ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void settingsMenuStrip_Click(object sender, EventArgs e)
+        {
+            Opacity = 1.0;
+            ShowInTaskbar = true;
+            ShowIcon = true;
+            Visible = true;
+            WindowState = FormWindowState.Normal;
+        }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            this.Opacity = 0.0;
+            this.ShowInTaskbar = false;
+            this.ShowIcon = false;
+            this.Visible = false;
+        }
+
+        private void exitMenuStrip_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

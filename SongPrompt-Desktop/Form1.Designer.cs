@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SongPrompt));
             this.connectionGB = new System.Windows.Forms.GroupBox();
             this.portComComboBox = new System.Windows.Forms.ComboBox();
             this.comPortConnect = new System.Windows.Forms.Button();
@@ -43,9 +45,18 @@
             this.timeLabel = new System.Windows.Forms.Label();
             this.titleSetLbl = new System.Windows.Forms.Label();
             this.authorSetLbl = new System.Windows.Forms.Label();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.connSpotMenuStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.btConnMenuStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsMenuStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitMenuStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeButton = new System.Windows.Forms.Button();
             this.connectionGB.SuspendLayout();
             this.trackInfoGB.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // connectionGB
@@ -219,20 +230,91 @@
             this.authorSetLbl.TabIndex = 4;
             this.authorSetLbl.Text = "NONE";
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.BalloonTipText = "Aplikacja została uruchomiona\r\n";
+            this.notifyIcon1.BalloonTipTitle = "Uruchomiono aplikację";
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connSpotMenuStrip,
+            this.btConnMenuStrip,
+            this.settingsMenuStrip,
+            this.toolStripSeparator1,
+            this.exitMenuStrip});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(172, 120);
+            // 
+            // connSpotMenuStrip
+            // 
+            this.connSpotMenuStrip.Name = "connSpotMenuStrip";
+            this.connSpotMenuStrip.Size = new System.Drawing.Size(171, 22);
+            this.connSpotMenuStrip.Text = "Połącz ze Spotify";
+            this.connSpotMenuStrip.Click += new System.EventHandler(this.checkConnBtn_Click);
+            // 
+            // btConnMenuStrip
+            // 
+            this.btConnMenuStrip.Name = "btConnMenuStrip";
+            this.btConnMenuStrip.Size = new System.Drawing.Size(171, 22);
+            this.btConnMenuStrip.Text = "Połącz z Bluetooth";
+            this.btConnMenuStrip.Click += new System.EventHandler(this.comPortConnect_Click);
+            // 
+            // settingsMenuStrip
+            // 
+            this.settingsMenuStrip.Name = "settingsMenuStrip";
+            this.settingsMenuStrip.Size = new System.Drawing.Size(171, 22);
+            this.settingsMenuStrip.Text = "Ustawienia";
+            this.settingsMenuStrip.Click += new System.EventHandler(this.settingsMenuStrip_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
+            // 
+            // exitMenuStrip
+            // 
+            this.exitMenuStrip.Name = "exitMenuStrip";
+            this.exitMenuStrip.Size = new System.Drawing.Size(171, 22);
+            this.exitMenuStrip.Text = "Zakończ";
+            this.exitMenuStrip.Click += new System.EventHandler(this.exitMenuStrip_Click);
+            // 
+            // closeButton
+            // 
+            this.closeButton.Location = new System.Drawing.Point(25, 287);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(75, 23);
+            this.closeButton.TabIndex = 2;
+            this.closeButton.Text = "Zamknij";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            // 
             // SongPrompt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(279, 320);
+            this.ControlBox = false;
+            this.Controls.Add(this.closeButton);
             this.Controls.Add(this.trackInfoGB);
             this.Controls.Add(this.connectionGB);
             this.Name = "SongPrompt";
+            this.Opacity = 0D;
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "SongPrompt";
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.connectionGB.ResumeLayout(false);
             this.connectionGB.PerformLayout();
             this.trackInfoGB.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -254,6 +336,14 @@
         private System.Windows.Forms.Label comConnectionLbl;
         private System.Windows.Forms.Label comPortLabel;
         private System.Windows.Forms.ComboBox portComComboBox;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        public System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ToolStripMenuItem connSpotMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem btConnMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem settingsMenuStrip;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem exitMenuStrip;
+        private System.Windows.Forms.Button closeButton;
     }
 }
 

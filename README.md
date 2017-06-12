@@ -17,7 +17,7 @@ Data is send in prepared format:
 How are board and LED display and bluetooth module connected:
 LED Display HD44780 : 
 
-`1 - GND <br />
+1 - GND <br />
 2 - 5 V <br />
 3 - GND <br />
 4 - PB2 <br />
@@ -28,19 +28,17 @@ LED Display HD44780 :
 13 - PB12 <br />
 14 - PB13 <br />
 15 - 3 V <br />
-16 - GND`
-
-
+16 - GND
 
 Bluetooth Module HC-05 : 
 
-`VCC - 5 V
+VCC - 5 V
 
 GND - GND
 
 RXD - PC12
 
-TXD - PC11`
+TXD - PC11
 
 ## Tools
 IDE: CoIDE v1.7.8 (for STM), Visual Studio 2015(for desktop application)

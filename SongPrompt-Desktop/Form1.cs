@@ -96,7 +96,7 @@ namespace SongPrompt
                 _spotify.ListenForEvents = true;
                 if (mySerialPort.IsOpen)
                 {
-                    mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "0");
+                    mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
                 }
                 else
                 {
@@ -142,14 +142,14 @@ namespace SongPrompt
             authorSetLbl.Text = track.ArtistResource.Name;
             authorSetLbl.Tag = track.ArtistResource.Uri;
             _trackInfo._author = track.ArtistResource.Name;
-            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + ";0");
+            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
             Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";0");
 
             if (mySerialPort.IsOpen)
             {
                 
                 mySerialPort.Write("Spotify ON 0");
-                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "0");
+                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
                 
             }
         }
@@ -178,10 +178,10 @@ namespace SongPrompt
             _trackInfo._time = timeLabel.Text;
             if (mySerialPort.IsOpen)
             {
-                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + "0");
+                mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
             }
-            mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "0");
-            Console.WriteLine(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time);
+            mySerialPort.Write(_trackInfo._author + ";" + _trackInfo._title + ";" + _trackInfo._time + "^");
+            
         }
 
         private void _spotify_OnTrackChange(object sender, TrackChangeEventArgs e)

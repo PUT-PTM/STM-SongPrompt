@@ -10,17 +10,30 @@
 #include "stm32f4xx_syscfg.h"
 #include <string.h>
 #include <stdio.h>
+#include <itoa.c>
 
 void send_string(const char* s);
 
 char buffer[255];
 char* split;
+char times[100];
+char autor[100];
+char nazwa[100];
+char czas[] = "Time : ";
 int i=0;
 int k=0;
+int licznik=0;
+char play[12] = "Play Now...";
+char plays[] = "Play Now...";
+char pause[] = "Pause...";
+int time=0;
+char c[10];
+char ggg[] = " sec.";
+
 
 int main(void)
 {
-	//TIMER
+	//TIMER3
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 	TIM_TimeBaseStructure.TIM_Period =1000-1;
@@ -39,6 +52,44 @@ int main(void)
 	NVIC_Init(&NVIC_InitStructure);
 	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
 	TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);
+
+	//TIMER4
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    TIM_TimeBaseStructure.TIM_Period = 6500-1;
+	TIM_TimeBaseStructure.TIM_Prescaler = 8400-1;
+	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseStructure.TIM_CounterMode =  TIM_CounterMode_Up;
+	TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+	TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+	TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
+
+
+	NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+	//KONIEC TIM4
+
+	//TIMER2
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+		NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+	    TIM_TimeBaseStructure.TIM_Period = 2000-1;
+		TIM_TimeBaseStructure.TIM_Prescaler = 8400-1;
+		TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+		TIM_TimeBaseStructure.TIM_CounterMode =  TIM_CounterMode_Up;
+		TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+		TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
+
+
+		NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
+		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;
+		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+		NVIC_Init(&NVIC_InitStructure);
+		//KONIEC TIM2
 
 	//USART
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
@@ -88,6 +139,7 @@ int main(void)
 	TM_HD44780_Clear();
 
 
+
 	//PRZYCISK
 	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
@@ -108,6 +160,12 @@ int main(void)
 	Delayms(100);
 	TM_HD44780_Clear();
 
+	char welcome[] = "Welcome in ";
+	char welcome2[]="SongPrompt...";
+	TM_HD44780_Puts(0, 0, welcome);
+	TM_HD44780_Puts(0, 1, welcome2);
+
+
     while(1)
     {
 
@@ -117,29 +175,66 @@ int main(void)
 			if(i>=255)
 			  i=0;
 
-			if(c!='0')
+			if(c!='^' && c!='$' && c!='&')
 			{
 				buffer[i] = c;
 				i++;
 				k++;
 			}
-			if(c == '0')
+			if(c == '&')
 			{
-				send_string(buffer);
-				send_string("\n");
+				TIM_Cmd(TIM2, ENABLE);
+				play[0]=0;
+				strcat(play,plays);
+			}
+
+			if(c == '$')
+						{
+							TIM_Cmd(TIM2, DISABLE);
+							play[0]=0;
+							strcat(play,pause);
+						}
+
+
+
+			if(c == '^')
+			{
+				//send_string(buffer);
+				//First Init
+				times[0]=0;
+				nazwa[0]=0;
+				autor[0]=0;
+				time=0;
+				play[0]=0;
+				strcat(play,plays);
+				TIM_Cmd(TIM2, ENABLE);
+
 				split = strtok(buffer, ";");
 				TM_HD44780_Clear();
 				int j = 0;
-				while(split != NULL)
+
+	 			while(split != NULL)
 				{
 					if(j == 2)
+					{
 						break;
-					TM_HD44780_Puts(0, j, split);
+					}
+					if(j == 1) {
+						strcat(autor,split);
+						TM_HD44780_Puts(0, 0, autor);
+						TIM_Cmd(TIM4, ENABLE);
+								}
+
+					if (j==0) {
+						strcat(nazwa,split);
+						TM_HD44780_Puts(0, 1, nazwa);
+								}
+
 					j++;
 					split = strtok(NULL, ";");
 
 				}
-				TM_HD44780_Puts(0,0,buffer);
+				//TM_HD44780_Puts(0,0,buffer);
 				memset(buffer, 0, sizeof(buffer));
 				memset(split, 0, sizeof(split));
 				i=0;
@@ -149,6 +244,90 @@ int main(void)
 
 
 }
+
+
+
+
+void TIM4_IRQHandler(void)
+{
+         	if(TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET)
+         	{
+
+                if(licznik==0)
+                {
+                	TM_HD44780_Clear();
+                	TM_HD44780_Puts(0, 0, play);
+                	TM_HD44780_Puts(0, 1, times);
+
+					licznik++;
+                }
+                else
+         		  {
+                	 TM_HD44780_Clear();
+                     TM_HD44780_Puts(0, 0, autor);
+                	 TM_HD44780_Puts(0, 1, nazwa);
+         			 licznik=0;
+
+         		  }
+
+
+                	TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+         	}
+}
+
+
+char *czasa (int temp)
+{
+	char gotowe[8];
+	gotowe[0]=0;
+	char sec[2];
+	char min[2];
+	char godz[2];
+	char prze=':';
+
+	int h = temp / 3600;
+	int m = (temp - 3600 * h) / 60;
+	int s = temp - 3600 * h - 60 * m;
+
+	itoa(h,godz,10);
+	strcat(godz,gotowe);
+
+	strcat(prze,gotowe);
+
+	itoa(m,min,10);
+	strcat(min,gotowe);
+
+	strcat(prze,gotowe);
+
+	itoa(s,sec,10);
+	strcat(sec,gotowe);
+
+	return gotowe;
+
+}
+
+
+void TIM2_IRQHandler(void)
+{
+         	if(TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
+         	{
+
+         			time++;
+         	//	c=czasa(time);
+         			times[0]=0;
+         		itoa(time,times,10);
+         		strcat(times,ggg);
+         	//	strcat(c,times);
+         		//strcat(ggg,times);
+
+
+         		  }
+
+
+                	TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+	}
+
+
 
 
 void TIM3_IRQHandler(void)

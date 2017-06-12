@@ -12,7 +12,7 @@ Then data is transfered through bluetooth to board and it is shown on LED displa
 First row shows track title, in second row displayed are author of track and current time.
 
 Data is send in prepared format:
-`{author;title;time}
+`{author;title;time}`
 
 How are board and LED display and bluetooth module connected:
 `(TO DO)`

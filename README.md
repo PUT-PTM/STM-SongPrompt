@@ -12,21 +12,16 @@ Then data is transfered through bluetooth to board and it is shown on LED displa
 First row shows track title, in second row displayed are author of track and current time.
 
 Data is send in prepared format:
-`(TO DO)`
+`{author;title;time}
 
 How are board and LED display and bluetooth module connected:
 `(TO DO)`
 
 ## Tools
-The STM32 software was written in C language using CoIDE:
-(link)
-Library used for LED Display:
-(link)
+IDE: CoIDE v1.7.8 (for STM), Visual Studio 2015(for desktop application)
 
-Desktop application that receives data from Spotify was written in C# language using Microsoft Visual Studio.
-(link)
-Library used for getting data from Spotify:
-(link) 
+Languages: C (STM), C#(desktop application)
+
 
 ## How to run
 To run you need to wire up everything, paste code for STM32 to your IDE (with all libraries), 
@@ -45,7 +40,12 @@ Nuget(komenda)
 ## Attributions
 ### Used libraries:
 
+Library used for getting data from Spotify: [SpotifyAPI-NET](https://github.com/JohnnyCrazy/SpotifyAPI-NET)
+
+[LED Display library](https://stm32f4-discovery.net/2014/06/library-16-interfacing-hd44780-lcd-controller-with-stm32f4/)
 ### Used hardware:
+LED Display HD44780
+Bluetooth module
 
 ## License
 Distrubted under MIT license.

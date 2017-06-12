@@ -15,7 +15,27 @@ Data is send in prepared format:
 `{author;title;time}`
 
 How are board and LED display and bluetooth module connected:
-`(TO DO)`
+LED Display HD44780 : 
+`1 - GND
+2 - 5 V
+3 - GND
+4 - PB2
+5 - GND
+6 - PB7
+11 - PC12
+12 - PC13
+13 - PB12
+14 - PB13
+15 - 3 V
+16 - GND`
+
+
+
+Bluetooth Module HC-05 : 
+`VCC - 5 V
+GND - GND
+RXD - PC12
+TXD - PC11`
 
 ## Tools
 IDE: CoIDE v1.7.8 (for STM), Visual Studio 2015(for desktop application)

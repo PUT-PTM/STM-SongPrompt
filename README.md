@@ -45,6 +45,7 @@ Library used for getting data from Spotify: [SpotifyAPI-NET](https://github.com/
 [LED Display library](https://stm32f4-discovery.net/2014/06/library-16-interfacing-hd44780-lcd-controller-with-stm32f4/)
 ### Used hardware:
 LED Display HD44780
+
 Bluetooth module
 
 ## License

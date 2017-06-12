@@ -49,7 +49,7 @@ compile and flash to board. In case of desktop application, you can download com
 program (visit Realeases) and just run it or copy code and compile it using your IDE 
 (with all libraries).
 
-[Link to releases](https://github.com/PUT-PTM/STM-SongPrompt/releases/tag/SongPrompt0.1)
+[Link to releases](https://github.com/PUT-PTM/STM-SongPrompt/releases)
 
 ## How to compile
 Best way is using CoIDE to compile code for STM board and to flash it on it.

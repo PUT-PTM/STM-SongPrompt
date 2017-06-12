@@ -26,8 +26,10 @@ Languages: C (STM), C#(desktop application)
 ## How to run
 To run you need to wire up everything, paste code for STM32 to your IDE (with all libraries), 
 compile and flash to board. In case of desktop application, you can download compiled 
-program (.exe file) and just run it or copy code and compile it using your IDE 
+program (visit Realeases) and just run it or copy code and compile it using your IDE 
 (with all libraries).
+
+[Link to releases](https://github.com/PUT-PTM/STM-SongPrompt/releases/tag/SongPrompt0.1)
 
 ## How to compile
 Best way is using CoIDE to compile code for STM board and to flash it on it.

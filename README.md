@@ -34,7 +34,7 @@ Bluetooth Module HC-05 :
 ```
 VCC - 5 V
 GND - GND
-RXD - PC12
+RXD - PC10
 TXD - PC11
 ```
 ## Tools
